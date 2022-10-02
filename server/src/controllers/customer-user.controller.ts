@@ -15,6 +15,8 @@ import {
   post,
   requestBody
 } from '@loopback/rest';
+import { authenticate, STRATEGY } from 'loopback4-authentication';
+import { authorize } from 'loopback4-authorization';
 import {
   Customer,
   User
@@ -26,6 +28,8 @@ export class CustomerUserController {
     @repository(CustomerRepository) protected customerRepository: CustomerRepository,
   ) { }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getCustomerUsers']})
   @get('/customers/{id}/users', {
     responses: {
       '200': {
@@ -45,6 +49,8 @@ export class CustomerUserController {
     return this.customerRepository.users(id).find(filter);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['createCustomerUser']})
   @post('/customers/{id}/users', {
     responses: {
       '200': {
@@ -70,6 +76,8 @@ export class CustomerUserController {
     return this.customerRepository.users(id).create(user);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['updateCustomerUser']})
   @patch('/customers/{id}/users', {
     responses: {
       '200': {
@@ -93,6 +101,8 @@ export class CustomerUserController {
     return this.customerRepository.users(id).patch(user, where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['deleteCustomerUser']})
   @del('/customers/{id}/users', {
     responses: {
       '200': {

@@ -17,6 +17,7 @@ import {
   AuthenticationBindings,
   STRATEGY
 } from 'loopback4-authentication';
+import { authorize } from 'loopback4-authorization';
 import {User} from '../models';
 import {UserRepository} from '../repositories';
 import { BcryptHasher } from '../services/hash.password.bcrypt';
@@ -53,6 +54,7 @@ export class UserController {
   ) {}
 
   @authenticate(STRATEGY.LOCAL)
+  @authorize({permissions: ['*']})
   @post('/users/login', {
     responses: {
       '200': {
@@ -88,6 +90,7 @@ export class UserController {
     return {token};
   }
 
+  @authorize({permissions: ['*']})
   @post('/users')
   @response(200, {
     description: 'User model instance',
@@ -111,6 +114,7 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getUserCount']})
   @get('/users/count')
   @response(200, {
     description: 'User model count',
@@ -121,6 +125,7 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getUsers']})
   @get('/users')
   @response(200, {
     description: 'Array of User model instances',
@@ -140,6 +145,7 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['updateAllUsers']})
   @patch('/users')
   @response(200, {
     description: 'User PATCH success count',
@@ -160,6 +166,7 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getUser']})
   @get('/users/{id}')
   @response(200, {
     description: 'User model instance',
@@ -176,6 +183,7 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['updateUser']})
   @patch('/users/{id}')
   @response(204, {
     description: 'User PATCH success',
@@ -196,6 +204,7 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['replaceUser']})
   @put('/users/{id}')
   @response(204, {
     description: 'User PUT success',
@@ -208,6 +217,7 @@ export class UserController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['deleteUser']})
   @del('/users/{id}')
   @response(204, {
     description: 'User DELETE success',

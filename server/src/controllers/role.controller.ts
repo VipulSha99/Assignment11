@@ -17,6 +17,8 @@ import {
   requestBody,
   response,
 } from '@loopback/rest';
+import { authenticate, STRATEGY } from 'loopback4-authentication';
+import { authorize } from 'loopback4-authorization';
 import {Role} from '../models';
 import {RoleRepository} from '../repositories';
 
@@ -26,6 +28,8 @@ export class RoleController {
     public roleRepository : RoleRepository,
   ) {}
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['*']})
   @post('/roles')
   @response(200, {
     description: 'Role model instance',
@@ -47,6 +51,8 @@ export class RoleController {
     return this.roleRepository.create(role);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getRolesCount']})
   @get('/roles/count')
   @response(200, {
     description: 'Role model count',
@@ -58,6 +64,8 @@ export class RoleController {
     return this.roleRepository.count(where);
   }
 
+  // @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getRoles']})
   @get('/roles')
   @response(200, {
     description: 'Array of Role model instances',
@@ -76,6 +84,8 @@ export class RoleController {
     return this.roleRepository.find(filter);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['updateAllRoles']})
   @patch('/roles')
   @response(200, {
     description: 'Role PATCH success count',
@@ -95,6 +105,8 @@ export class RoleController {
     return this.roleRepository.updateAll(role, where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['*']})
   @get('/roles/{id}')
   @response(200, {
     description: 'Role model instance',
@@ -111,6 +123,8 @@ export class RoleController {
     return this.roleRepository.findById(id, filter);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['updateRole']})
   @patch('/roles/{id}')
   @response(204, {
     description: 'Role PATCH success',
@@ -130,6 +144,8 @@ export class RoleController {
     await this.roleRepository.updateById(id, role);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['replaceRole']})
   @put('/roles/{id}')
   @response(204, {
     description: 'Role PUT success',
@@ -141,6 +157,8 @@ export class RoleController {
     await this.roleRepository.replaceById(id, role);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['deleteRole']})
   @del('/roles/{id}')
   @response(204, {
     description: 'Role DELETE success',

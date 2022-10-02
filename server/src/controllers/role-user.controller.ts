@@ -15,6 +15,8 @@ import {
   post,
   requestBody
 } from '@loopback/rest';
+import { authenticate, STRATEGY } from 'loopback4-authentication';
+import { authorize } from 'loopback4-authorization';
 import {
   Role,
   User
@@ -26,6 +28,8 @@ export class RoleUserController {
     @repository(RoleRepository) protected roleRepository: RoleRepository,
   ) { }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getRoleUsers']})
   @get('/roles/{id}/users', {
     responses: {
       '200': {
@@ -45,6 +49,8 @@ export class RoleUserController {
     return this.roleRepository.users(id).find(filter);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['createRoleUser']})
   @post('/roles/{id}/users', {
     responses: {
       '200': {
@@ -70,6 +76,8 @@ export class RoleUserController {
     return this.roleRepository.users(id).create(user);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['updateRoleUser']})
   @patch('/roles/{id}/users', {
     responses: {
       '200': {
@@ -93,6 +101,8 @@ export class RoleUserController {
     return this.roleRepository.users(id).patch(user, where);
   }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['deleteRoleUser']})
   @del('/roles/{id}/users', {
     responses: {
       '200': {

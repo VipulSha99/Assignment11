@@ -6,6 +6,8 @@ import {
   get,
   getModelSchemaRef,
 } from '@loopback/rest';
+import { authenticate, STRATEGY } from 'loopback4-authentication';
+import { authorize } from 'loopback4-authorization';
 import {
   User,
   Role,
@@ -18,6 +20,8 @@ export class UserRoleController {
     public userRepository: UserRepository,
   ) { }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getUserRole']})
   @get('/users/{id}/role', {
     responses: {
       '200': {

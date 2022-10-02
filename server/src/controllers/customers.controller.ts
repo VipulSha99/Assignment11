@@ -12,6 +12,7 @@ import {
   response
 } from '@loopback/rest';
 import { authenticate, STRATEGY } from 'loopback4-authentication';
+import { authorize } from 'loopback4-authorization';
 import {Customer} from '../models';
 import {CustomerRepository} from '../repositories';
 
@@ -22,6 +23,7 @@ export class CustomersController {
   ) {}
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['createCustomer']})
   @post('/customers')
   @response(200, {
     description: 'Customer model instance',
@@ -44,6 +46,7 @@ export class CustomersController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getCustomersCount']})
   @get('/customers/count')
   @response(200, {
     description: 'Customer model count',
@@ -54,6 +57,7 @@ export class CustomersController {
   }
 
   // @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getCustomers']})
   @get('/customers')
   @response(200, {
     description: 'Array of Customer model instances',
@@ -73,6 +77,7 @@ export class CustomersController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['updateAllCustomers']})
   @patch('/customers')
   @response(200, {
     description: 'Customer PATCH success count',
@@ -93,6 +98,7 @@ export class CustomersController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['getCustomer']})
   @get('/customers/{id}')
   @response(200, {
     description: 'Customer model instance',
@@ -111,6 +117,7 @@ export class CustomersController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['updateCustomer']})
   @patch('/customers/{id}')
   @response(204, {
     description: 'Customer PATCH success',
@@ -131,6 +138,7 @@ export class CustomersController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['replaceCustomer']})
   @put('/customers/{id}')
   @response(204, {
     description: 'Customer PUT success',
@@ -143,6 +151,7 @@ export class CustomersController {
   }
 
   @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: ['deleteCustomer']})
   @del('/customers/{id}')
   @response(204, {
     description: 'Customer DELETE success',

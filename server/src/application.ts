@@ -16,6 +16,7 @@ import {BearerTokenVerifyProvider} from './providers/bearer-token-verifier.provi
 import { BcryptHasher } from './services/hash.password.bcrypt';
 import * as dotenv from 'dotenv';
 import * as dotenvExt from 'dotenv-extended';
+import { AuthorizationBindings, AuthorizationComponent } from 'loopback4-authorization';
 
 
 export {ApplicationConfig};
@@ -53,7 +54,11 @@ export class ServerApplication extends BootMixin(
     this.bind(Strategies.Passport.BEARER_TOKEN_VERIFIER).toProvider(
       BearerTokenVerifyProvider,
     );
-
+    this.bind(AuthorizationBindings.CONFIG).to({
+      allowAlwaysPaths: ['/explorer'],
+    });
+    this.component(AuthorizationComponent);
+    
     this.projectRoot = __dirname;
     // Customize @loopback/boot Booter Conventions here
     this.bootOptions = {
