@@ -1,8 +1,9 @@
 import {Entity, hasMany, model, property} from '@loopback/repository';
 import {User, UserWithRelations} from './user.model';
+import {Permissions} from 'loopback4-authorization';
 
 @model({name: 'role',settings: {strict: true}})
-export class Role extends Entity {
+export class Role extends Entity implements Permissions<string>{
   @property({
     type: 'string',
     id: true,
@@ -20,6 +21,12 @@ export class Role extends Entity {
     type: 'string',
   })
   description?: string;
+
+  @property({
+    type: 'array',
+    itemType: 'string',
+  })
+  permissions: string[];
 
   @property({
     type: 'date',

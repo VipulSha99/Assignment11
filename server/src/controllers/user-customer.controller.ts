@@ -6,10 +6,13 @@ import {
   get,
   getModelSchemaRef,
 } from '@loopback/rest';
+import { authenticate, STRATEGY } from 'loopback4-authentication';
+import { authorize } from 'loopback4-authorization';
 import {
   User,
   Customer,
 } from '../models';
+import { permission } from '../permission';
 import {UserRepository} from '../repositories';
 
 export class UserCustomerController {
@@ -18,6 +21,8 @@ export class UserCustomerController {
     public userRepository: UserRepository,
   ) { }
 
+  @authenticate(STRATEGY.BEARER)
+  @authorize({permissions: [permission.getUserCustomer]})
   @get('/users/{id}/customer', {
     responses: {
       '200': {
