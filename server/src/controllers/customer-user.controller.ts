@@ -21,6 +21,7 @@ import {
   Customer,
   User
 } from '../models';
+import { permission } from '../permission';
 import {CustomerRepository} from '../repositories';
 
 export class CustomerUserController {
@@ -29,7 +30,7 @@ export class CustomerUserController {
   ) { }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['getCustomerUsers']})
+  @authorize({permissions: [permission.getCustomerUsers]})
   @get('/customers/{id}/users', {
     responses: {
       '200': {
@@ -50,7 +51,7 @@ export class CustomerUserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['createCustomerUser']})
+  @authorize({permissions: [permission.createCustomerUser]})
   @post('/customers/{id}/users', {
     responses: {
       '200': {
@@ -77,7 +78,7 @@ export class CustomerUserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['updateCustomerUser']})
+  @authorize({permissions: [permission.updateCustomerUser]})
   @patch('/customers/{id}/users', {
     responses: {
       '200': {
@@ -102,7 +103,7 @@ export class CustomerUserController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['deleteCustomerUser']})
+  @authorize({permissions: [permission.deleteCustomerUser]})
   @del('/customers/{id}/users', {
     responses: {
       '200': {

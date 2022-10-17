@@ -12,6 +12,7 @@ import {
   User,
   Customer,
 } from '../models';
+import { permission } from '../permission';
 import {UserRepository} from '../repositories';
 
 export class UserCustomerController {
@@ -21,7 +22,7 @@ export class UserCustomerController {
   ) { }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['getUserCustomer']})
+  @authorize({permissions: [permission.getUserCustomer]})
   @get('/users/{id}/customer', {
     responses: {
       '200': {

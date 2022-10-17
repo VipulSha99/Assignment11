@@ -12,6 +12,7 @@ import {
   User,
   Role,
 } from '../models';
+import { permission } from '../permission';
 import {UserRepository} from '../repositories';
 
 export class UserRoleController {
@@ -21,7 +22,7 @@ export class UserRoleController {
   ) { }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['getUserRole']})
+  @authorize({permissions: [permission.getUserRole]})
   @get('/users/{id}/role', {
     responses: {
       '200': {

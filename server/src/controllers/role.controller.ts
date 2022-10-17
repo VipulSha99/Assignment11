@@ -20,6 +20,7 @@ import {
 import { authenticate, STRATEGY } from 'loopback4-authentication';
 import { authorize } from 'loopback4-authorization';
 import {Role} from '../models';
+import { permission } from '../permission';
 import {RoleRepository} from '../repositories';
 
 export class RoleController {
@@ -52,7 +53,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['getRolesCount']})
+  @authorize({permissions: [permission.getRolesCount]})
   @get('/roles/count')
   @response(200, {
     description: 'Role model count',
@@ -65,7 +66,7 @@ export class RoleController {
   }
 
   // @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['getRoles']})
+  @authorize({permissions: [permission.getRoles]})
   @get('/roles')
   @response(200, {
     description: 'Array of Role model instances',
@@ -85,7 +86,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['updateAllRoles']})
+  @authorize({permissions: [permission.updateAllRoles]})
   @patch('/roles')
   @response(200, {
     description: 'Role PATCH success count',
@@ -124,7 +125,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['updateRole']})
+  @authorize({permissions: [permission.updateRole]})
   @patch('/roles/{id}')
   @response(204, {
     description: 'Role PATCH success',
@@ -145,7 +146,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['replaceRole']})
+  @authorize({permissions: [permission.replaceRole]})
   @put('/roles/{id}')
   @response(204, {
     description: 'Role PUT success',
@@ -158,7 +159,7 @@ export class RoleController {
   }
 
   @authenticate(STRATEGY.BEARER)
-  @authorize({permissions: ['deleteRole']})
+  @authorize({permissions: [permission.deleteRole]})
   @del('/roles/{id}')
   @response(204, {
     description: 'Role DELETE success',
